@@ -10,12 +10,4 @@ class Track {
     required this.album,
     required this.duration,
   });
-
-  const Track.empty()
-      : this(
-          title: '',
-          artist: '',
-          album: '',
-          duration: Duration.zero,
-        );
 }
