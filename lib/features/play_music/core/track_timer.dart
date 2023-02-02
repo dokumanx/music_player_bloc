@@ -43,7 +43,7 @@ class TrackTimer {
     }
   }
 
-  Duration remainingTime({required Duration trackDuration}) {
+  Duration passedTime({required Duration trackDuration}) {
     int trackTimeInMsc = trackDuration.inMilliseconds;
     int remainingTimeInMsc = _stopWatchTimer!.secondTime.value;
     int timeElapsedInMsc = trackTimeInMsc - remainingTimeInMsc;
@@ -51,8 +51,7 @@ class TrackTimer {
     return Duration(milliseconds: timeElapsedInMsc);
   }
 
-  Stream<Duration> remainingTimeStream(
-      {required Duration trackDuration}) async* {
+  Stream<Duration> passedTimeStream({required Duration trackDuration}) async* {
     final stopWatchStreamController = StreamController<Duration>.broadcast();
 
     int trackTimeInMsc = trackDuration.inMilliseconds;

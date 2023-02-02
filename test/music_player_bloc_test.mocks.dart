@@ -118,7 +118,7 @@ class MockTrackTimer extends _i1.Mock implements _i4.TrackTimer {
         returnValueForMissingStub: null,
       );
   @override
-  Duration remainingTime({required Duration? trackDuration}) =>
+  Duration passedTime({required Duration? trackDuration}) =>
       (super.noSuchMethod(
         Invocation.method(
           #remainingTime,
@@ -143,8 +143,7 @@ class MockTrackTimer extends _i1.Mock implements _i4.TrackTimer {
         ),
       ) as Duration);
   @override
-  _i5.Stream<Duration> remainingTimeStream(
-          {required Duration? trackDuration}) =>
+  _i5.Stream<Duration> passedTimeStream({required Duration? trackDuration}) =>
       (super.noSuchMethod(
         Invocation.method(
           #remainingTimeStream,

@@ -37,7 +37,7 @@ void main() {
       'Play the first track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 0));
       },
       act: (bloc) => bloc.add(const MusicPlayerEvent.play()),
@@ -54,7 +54,7 @@ void main() {
       'Pause a track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 15));
       },
       seed: () => MusicPlayerState.playing(
@@ -76,7 +76,7 @@ void main() {
       'Resume paused track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 15));
       },
       seed: () => MusicPlayerState.paused(
@@ -98,7 +98,7 @@ void main() {
       'Skip next track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 10));
       },
       seed: () => MusicPlayerState.playing(
@@ -123,8 +123,8 @@ void main() {
       build: () => musicPlayerBloc,
       seed: () => MusicPlayerState.playing(
         track: blues90s.tracks.last,
-        currentTime: trackTimer.remainingTime(
-            trackDuration: blues90s.tracks.last.duration),
+        currentTime:
+            trackTimer.passedTime(trackDuration: blues90s.tracks.last.duration),
         currentTrackIndex: blues90s.tracks.length - 1,
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.next()),
@@ -137,7 +137,7 @@ void main() {
       'Skip to the previous track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => Duration.zero);
       },
       seed: () => MusicPlayerState.playing(
@@ -161,7 +161,7 @@ void main() {
       'Skip to the previous track while there is no previous track',
       build: () => musicPlayerBloc,
       setUp: () {
-        when(trackTimer.remainingTime(trackDuration: anyNamed('trackDuration')))
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => Duration.zero);
       },
       seed: () => MusicPlayerState.playing(

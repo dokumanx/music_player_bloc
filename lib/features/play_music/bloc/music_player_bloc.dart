@@ -7,9 +7,7 @@ import 'package:music_player_bloc/features/play_music/models/track.dart';
 import 'package:music_player_bloc/features/play_music/repository/playlist_repository.dart';
 
 part 'music_player_bloc.freezed.dart';
-
 part 'music_player_event.dart';
-
 part 'music_player_state.dart';
 
 class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
@@ -40,7 +38,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     trackTimer.setTrackDuration(duration: track.duration);
     emit(MusicPlayerState.playing(
       track: track,
-      currentTime: trackTimer.remainingTime(trackDuration: track.duration),
+      currentTime: trackTimer.passedTime(trackDuration: track.duration),
       currentTrackIndex: event.index,
     ));
   }
@@ -52,7 +50,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
     emit(MusicPlayerState.paused(
       track: track,
-      lastTime: trackTimer.remainingTime(trackDuration: track.duration),
+      lastTime: trackTimer.passedTime(trackDuration: track.duration),
       currentTrackIndex: currentTrackIndex,
     ));
   }
@@ -64,7 +62,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
     emit(MusicPlayerState.playing(
       track: track,
-      currentTime: trackTimer.remainingTime(trackDuration: track.duration),
+      currentTime: trackTimer.passedTime(trackDuration: track.duration),
       currentTrackIndex: currentTrackIndex,
     ));
   }

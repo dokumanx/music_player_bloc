@@ -33,7 +33,7 @@ class TrackPlayer extends StatelessWidget {
             style: Theme.of(context).textTheme.labelLarge,
           ),
           StreamBuilder<Duration>(
-              stream: timer.remainingTimeStream(trackDuration: track.duration),
+              stream: timer.passedTimeStream(trackDuration: track.duration),
               builder: (context, snapshot) {
                 if (!snapshot.hasError &&
                     snapshot.hasData &&
