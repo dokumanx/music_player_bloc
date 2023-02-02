@@ -29,7 +29,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
         pause: (_) => _pause(emit),
         resume: (_) => _resume(emit),
         next: (_) async => await _next(emit),
-        previous: (_) => _previous(emit),
+        previous: (_) async => await _previous(emit),
       );
     });
   }
@@ -89,7 +89,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     }
   }
 
-  _previous(Emitter<MusicPlayerState> emit) async {
+  Future<void> _previous(Emitter<MusicPlayerState> emit) async {
     if (currentTrackIndex > 0) {
       int previousIndex = currentTrackIndex - 1;
       emit(const MusicPlayerState.loading());
