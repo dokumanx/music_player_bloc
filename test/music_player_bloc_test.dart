@@ -17,18 +17,25 @@ void main() {
   late MockPlaylistRepository mockRepository;
   late MockTrackTimer trackTimer;
   late MusicPlayerBloc musicPlayerBloc;
+  late MusicPlayerState state;
 
   setUp(() {
     mockRepository = MockPlaylistRepository();
     trackTimer = MockTrackTimer();
 
     when(mockRepository.getPlaylist()).thenAnswer(
-      (_) => blues90s,
+      (_) async => blues90s,
     );
 
     musicPlayerBloc = MusicPlayerBloc(
       playlistRepository: mockRepository,
       trackTimer: trackTimer,
+    );
+
+    state = const MusicPlayerState(
+      playlist: blues90s,
+      currentTime: Duration.zero,
+      currentTrackIndex: 0,
     );
   });
 
@@ -41,11 +48,13 @@ void main() {
             .thenAnswer((_) => const Duration(seconds: 0));
       },
       act: (bloc) => bloc.add(const MusicPlayerEvent.play()),
+      skip: 1,
       expect: () => <MusicPlayerState>[
-        MusicPlayerState.playing(
-          track: blues90s.tracks.first,
-          currentTime: Duration.zero,
-          currentTrackIndex: 0,
+        state.copyWith(
+          status: PlayerStatus.loading,
+        ),
+        state.copyWith(
+          status: PlayerStatus.playing,
         ),
       ],
     );
@@ -57,18 +66,16 @@ void main() {
         when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 15));
       },
-      seed: () => MusicPlayerState.playing(
-        track: blues90s.tracks.first,
+      seed: () => state.copyWith(
+        status: PlayerStatus.playing,
         currentTime: const Duration(seconds: 15),
-        currentTrackIndex: 0,
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.pause()),
       expect: () => <MusicPlayerState>[
-        MusicPlayerState.paused(
-          track: blues90s.tracks.first,
-          lastTime: const Duration(seconds: 15),
-          currentTrackIndex: 0,
-        )
+        state.copyWith(
+          status: PlayerStatus.paused,
+          currentTime: const Duration(seconds: 15),
+        ),
       ],
     );
 
@@ -79,17 +86,15 @@ void main() {
         when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => const Duration(seconds: 15));
       },
-      seed: () => MusicPlayerState.paused(
-        track: blues90s.tracks.first,
-        lastTime: const Duration(seconds: 15),
-        currentTrackIndex: 0,
+      seed: () => state.copyWith(
+        status: PlayerStatus.paused,
+        currentTime: const Duration(seconds: 15),
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.resume()),
       expect: () => <MusicPlayerState>[
-        MusicPlayerState.playing(
-          track: blues90s.tracks.first,
+        state.copyWith(
+          status: PlayerStatus.playing,
           currentTime: const Duration(seconds: 15),
-          currentTrackIndex: 0,
         ),
       ],
     );
@@ -99,21 +104,21 @@ void main() {
       build: () => musicPlayerBloc,
       setUp: () {
         when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
-            .thenAnswer((_) => const Duration(seconds: 10));
+            .thenAnswer((_) => const Duration(seconds: 0));
       },
-      seed: () => MusicPlayerState.playing(
-        track: blues90s.tracks.first,
-        currentTime: const Duration(seconds: 10),
-        currentTrackIndex: 0,
+      seed: () => state.copyWith(
+        status: PlayerStatus.playing,
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.next()),
       wait: const Duration(milliseconds: 200),
       expect: () => <MusicPlayerState>[
-        const MusicPlayerState.loading(),
-        MusicPlayerState.playing(
-          track: blues90s.tracks[1],
-          currentTime: const Duration(seconds: 10),
+        state.copyWith(
+          status: PlayerStatus.loading,
+        ),
+        state.copyWith(
+          status: PlayerStatus.playing,
           currentTrackIndex: 1,
+          currentTime: const Duration(seconds: 0),
         ),
       ],
     );
@@ -121,15 +126,22 @@ void main() {
     blocTest(
       'Skip to the next track while there is no remaining track',
       build: () => musicPlayerBloc,
-      seed: () => MusicPlayerState.playing(
-        track: blues90s.tracks.last,
+      setUp: () {
+        when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
+            .thenAnswer((_) => const Duration(seconds: 0));
+      },
+      seed: () => state.copyWith(
+        status: PlayerStatus.playing,
+        currentTrackIndex: blues90s.tracks.length - 1,
         currentTime:
             trackTimer.passedTime(trackDuration: blues90s.tracks.last.duration),
-        currentTrackIndex: blues90s.tracks.length - 1,
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.next()),
       expect: () => <MusicPlayerState>[
-        const MusicPlayerState.stopped(),
+        state.copyWith(
+          status: PlayerStatus.stopped,
+          currentTrackIndex: blues90s.tracks.length - 1,
+        ),
       ],
     );
 
@@ -140,18 +152,22 @@ void main() {
         when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => Duration.zero);
       },
-      seed: () => MusicPlayerState.playing(
-        track: blues90s.tracks[5],
-        currentTime: const Duration(seconds: 0),
+      seed: () => state.copyWith(
+        status: PlayerStatus.playing,
+        currentTime: const Duration(seconds: 10),
         currentTrackIndex: 5,
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.previous()),
       wait: const Duration(milliseconds: 200),
       expect: () => <MusicPlayerState>[
-        const MusicPlayerState.loading(),
-        MusicPlayerState.playing(
-          track: blues90s.tracks[4],
-          currentTime: Duration.zero,
+        state.copyWith(
+          status: PlayerStatus.loading,
+          currentTime: const Duration(seconds: 10),
+          currentTrackIndex: 5,
+        ),
+        state.copyWith(
+          status: PlayerStatus.playing,
+          currentTime: const Duration(seconds: 0),
           currentTrackIndex: 4,
         ),
       ],
@@ -164,11 +180,7 @@ void main() {
         when(trackTimer.passedTime(trackDuration: anyNamed('trackDuration')))
             .thenAnswer((_) => Duration.zero);
       },
-      seed: () => MusicPlayerState.playing(
-        track: blues90s.tracks.first,
-        currentTime: Duration.zero,
-        currentTrackIndex: 0,
-      ),
+      seed: () => state.copyWith(status: PlayerStatus.playing),
       act: (bloc) => bloc.add(const MusicPlayerEvent.previous()),
       // Because it emits the same state, we don't expect anything
       expect: () => <MusicPlayerState>[],
