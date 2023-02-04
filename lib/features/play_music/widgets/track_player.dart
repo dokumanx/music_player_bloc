@@ -84,28 +84,21 @@ class TrackPlayer extends StatelessWidget {
               ),
               BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
                 builder: (context, state) {
-                  var onPressed = state.maybeMap(
-                    playing: (_) => () {
-                      context
-                          .read<MusicPlayerBloc>()
-                          .add(const MusicPlayerEvent.pause());
-                    },
-                    paused: (_) => () {
-                      context
-                          .read<MusicPlayerBloc>()
-                          .add(const MusicPlayerEvent.resume());
-                    },
-                    orElse: () => () {},
-                  );
-
-                  var icon = state.maybeMap(
-                    playing: (_) => const Icon(Icons.pause),
-                    orElse: () => const Icon(Icons.play_arrow),
-                  );
-
                   return FloatingActionButton(
-                    onPressed: onPressed,
-                    child: icon,
+                    onPressed: () {
+                      if (state.status == PlayerStatus.playing) {
+                        context
+                            .read<MusicPlayerBloc>()
+                            .add(const MusicPlayerEvent.pause());
+                      } else if (state.status == PlayerStatus.paused) {
+                        context
+                            .read<MusicPlayerBloc>()
+                            .add(const MusicPlayerEvent.resume());
+                      }
+                    },
+                    child: state.status == PlayerStatus.playing
+                        ? const Icon(Icons.pause)
+                        : const Icon(Icons.play_arrow),
                   );
                 },
               ),

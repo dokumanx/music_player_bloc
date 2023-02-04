@@ -768,75 +768,13 @@ abstract class PreviousMusicPlayer implements MusicPlayerEvent {
 
 /// @nodoc
 mixin _$MusicPlayerState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) =>
+  PlayerStatus get status => throw _privateConstructorUsedError;
+  Playlist get playlist => throw _privateConstructorUsedError;
+  Duration get currentTime => throw _privateConstructorUsedError;
+  int get currentTrackIndex => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $MusicPlayerStateCopyWith<MusicPlayerState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -845,6 +783,12 @@ abstract class $MusicPlayerStateCopyWith<$Res> {
   factory $MusicPlayerStateCopyWith(
           MusicPlayerState value, $Res Function(MusicPlayerState) then) =
       _$MusicPlayerStateCopyWithImpl<$Res, MusicPlayerState>;
+  @useResult
+  $Res call(
+      {PlayerStatus status,
+      Playlist playlist,
+      Duration currentTime,
+      int currentTrackIndex});
 }
 
 /// @nodoc
@@ -856,12 +800,48 @@ class _$MusicPlayerStateCopyWithImpl<$Res, $Val extends MusicPlayerState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+    Object? playlist = null,
+    Object? currentTime = null,
+    Object? currentTrackIndex = null,
+  }) {
+    return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PlayerStatus,
+      playlist: null == playlist
+          ? _value.playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as Playlist,
+      currentTime: null == currentTime
+          ? _value.currentTime
+          : currentTime // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      currentTrackIndex: null == currentTrackIndex
+          ? _value.currentTrackIndex
+          : currentTrackIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialCopyWith<$Res> {
+abstract class _$$InitialCopyWith<$Res>
+    implements $MusicPlayerStateCopyWith<$Res> {
   factory _$$InitialCopyWith(_$Initial value, $Res Function(_$Initial) then) =
       __$$InitialCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {PlayerStatus status,
+      Playlist playlist,
+      Duration currentTime,
+      int currentTrackIndex});
 }
 
 /// @nodoc
@@ -870,297 +850,24 @@ class __$$InitialCopyWithImpl<$Res>
     implements _$$InitialCopyWith<$Res> {
   __$$InitialCopyWithImpl(_$Initial _value, $Res Function(_$Initial) _then)
       : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$Initial with DiagnosticableTreeMixin implements Initial {
-  const _$Initial();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'MusicPlayerState.initial'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Initial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Initial implements MusicPlayerState {
-  const factory Initial() = _$Initial;
-}
-
-/// @nodoc
-abstract class _$$LoadingCopyWith<$Res> {
-  factory _$$LoadingCopyWith(_$Loading value, $Res Function(_$Loading) then) =
-      __$$LoadingCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$LoadingCopyWithImpl<$Res>
-    extends _$MusicPlayerStateCopyWithImpl<$Res, _$Loading>
-    implements _$$LoadingCopyWith<$Res> {
-  __$$LoadingCopyWithImpl(_$Loading _value, $Res Function(_$Loading) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$Loading with DiagnosticableTreeMixin implements Loading {
-  const _$Loading();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'MusicPlayerState.loading'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Loading);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Loading implements MusicPlayerState {
-  const factory Loading() = _$Loading;
-}
-
-/// @nodoc
-abstract class _$$PlayingCopyWith<$Res> {
-  factory _$$PlayingCopyWith(_$Playing value, $Res Function(_$Playing) then) =
-      __$$PlayingCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Track track, Duration currentTime, int currentTrackIndex});
-}
-
-/// @nodoc
-class __$$PlayingCopyWithImpl<$Res>
-    extends _$MusicPlayerStateCopyWithImpl<$Res, _$Playing>
-    implements _$$PlayingCopyWith<$Res> {
-  __$$PlayingCopyWithImpl(_$Playing _value, $Res Function(_$Playing) _then)
-      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? track = null,
+    Object? status = null,
+    Object? playlist = null,
     Object? currentTime = null,
     Object? currentTrackIndex = null,
   }) {
-    return _then(_$Playing(
-      track: null == track
-          ? _value.track
-          : track // ignore: cast_nullable_to_non_nullable
-              as Track,
+    return _then(_$Initial(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PlayerStatus,
+      playlist: null == playlist
+          ? _value.playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as Playlist,
       currentTime: null == currentTime
           ? _value.currentTime
           : currentTime // ignore: cast_nullable_to_non_nullable
@@ -1175,30 +882,38 @@ class __$$PlayingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Playing with DiagnosticableTreeMixin implements Playing {
-  const _$Playing(
-      {required this.track,
-      required this.currentTime,
-      required this.currentTrackIndex});
+class _$Initial with DiagnosticableTreeMixin implements Initial {
+  const _$Initial(
+      {this.status = PlayerStatus.initial,
+      this.playlist = const Playlist(name: '', tracks: []),
+      this.currentTime = Duration.zero,
+      this.currentTrackIndex = 0});
 
   @override
-  final Track track;
+  @JsonKey()
+  final PlayerStatus status;
   @override
+  @JsonKey()
+  final Playlist playlist;
+  @override
+  @JsonKey()
   final Duration currentTime;
   @override
+  @JsonKey()
   final int currentTrackIndex;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.playing(track: $track, currentTime: $currentTime, currentTrackIndex: $currentTrackIndex)';
+    return 'MusicPlayerState(status: $status, playlist: $playlist, currentTime: $currentTime, currentTrackIndex: $currentTrackIndex)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'MusicPlayerState.playing'))
-      ..add(DiagnosticsProperty('track', track))
+      ..add(DiagnosticsProperty('type', 'MusicPlayerState'))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('playlist', playlist))
       ..add(DiagnosticsProperty('currentTime', currentTime))
       ..add(DiagnosticsProperty('currentTrackIndex', currentTrackIndex));
   }
@@ -1207,8 +922,10 @@ class _$Playing with DiagnosticableTreeMixin implements Playing {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Playing &&
-            (identical(other.track, track) || other.track == track) &&
+            other is _$Initial &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.playlist, playlist) ||
+                other.playlist == playlist) &&
             (identical(other.currentTime, currentTime) ||
                 other.currentTime == currentTime) &&
             (identical(other.currentTrackIndex, currentTrackIndex) ||
@@ -1216,596 +933,33 @@ class _$Playing with DiagnosticableTreeMixin implements Playing {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, track, currentTime, currentTrackIndex);
+  int get hashCode => Object.hash(
+      runtimeType, status, playlist, currentTime, currentTrackIndex);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PlayingCopyWith<_$Playing> get copyWith =>
-      __$$PlayingCopyWithImpl<_$Playing>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return playing(track, currentTime, currentTrackIndex);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return playing?.call(track, currentTime, currentTrackIndex);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (playing != null) {
-      return playing(track, currentTime, currentTrackIndex);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return playing(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return playing?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (playing != null) {
-      return playing(this);
-    }
-    return orElse();
-  }
+  _$$InitialCopyWith<_$Initial> get copyWith =>
+      __$$InitialCopyWithImpl<_$Initial>(this, _$identity);
 }
 
-abstract class Playing implements MusicPlayerState {
-  const factory Playing(
-      {required final Track track,
-      required final Duration currentTime,
-      required final int currentTrackIndex}) = _$Playing;
+abstract class Initial implements MusicPlayerState {
+  const factory Initial(
+      {final PlayerStatus status,
+      final Playlist playlist,
+      final Duration currentTime,
+      final int currentTrackIndex}) = _$Initial;
 
-  Track get track;
+  @override
+  PlayerStatus get status;
+  @override
+  Playlist get playlist;
+  @override
   Duration get currentTime;
+  @override
   int get currentTrackIndex;
+  @override
   @JsonKey(ignore: true)
-  _$$PlayingCopyWith<_$Playing> get copyWith =>
+  _$$InitialCopyWith<_$Initial> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$PausedCopyWith<$Res> {
-  factory _$$PausedCopyWith(_$Paused value, $Res Function(_$Paused) then) =
-      __$$PausedCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Track track, Duration lastTime, int currentTrackIndex});
-}
-
-/// @nodoc
-class __$$PausedCopyWithImpl<$Res>
-    extends _$MusicPlayerStateCopyWithImpl<$Res, _$Paused>
-    implements _$$PausedCopyWith<$Res> {
-  __$$PausedCopyWithImpl(_$Paused _value, $Res Function(_$Paused) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? track = null,
-    Object? lastTime = null,
-    Object? currentTrackIndex = null,
-  }) {
-    return _then(_$Paused(
-      track: null == track
-          ? _value.track
-          : track // ignore: cast_nullable_to_non_nullable
-              as Track,
-      lastTime: null == lastTime
-          ? _value.lastTime
-          : lastTime // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      currentTrackIndex: null == currentTrackIndex
-          ? _value.currentTrackIndex
-          : currentTrackIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$Paused with DiagnosticableTreeMixin implements Paused {
-  const _$Paused(
-      {required this.track,
-      required this.lastTime,
-      required this.currentTrackIndex});
-
-  @override
-  final Track track;
-  @override
-  final Duration lastTime;
-  @override
-  final int currentTrackIndex;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.paused(track: $track, lastTime: $lastTime, currentTrackIndex: $currentTrackIndex)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MusicPlayerState.paused'))
-      ..add(DiagnosticsProperty('track', track))
-      ..add(DiagnosticsProperty('lastTime', lastTime))
-      ..add(DiagnosticsProperty('currentTrackIndex', currentTrackIndex));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$Paused &&
-            (identical(other.track, track) || other.track == track) &&
-            (identical(other.lastTime, lastTime) ||
-                other.lastTime == lastTime) &&
-            (identical(other.currentTrackIndex, currentTrackIndex) ||
-                other.currentTrackIndex == currentTrackIndex));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, track, lastTime, currentTrackIndex);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PausedCopyWith<_$Paused> get copyWith =>
-      __$$PausedCopyWithImpl<_$Paused>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return paused(track, lastTime, currentTrackIndex);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return paused?.call(track, lastTime, currentTrackIndex);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (paused != null) {
-      return paused(track, lastTime, currentTrackIndex);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return paused(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return paused?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (paused != null) {
-      return paused(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Paused implements MusicPlayerState {
-  const factory Paused(
-      {required final Track track,
-      required final Duration lastTime,
-      required final int currentTrackIndex}) = _$Paused;
-
-  Track get track;
-  Duration get lastTime;
-  int get currentTrackIndex;
-  @JsonKey(ignore: true)
-  _$$PausedCopyWith<_$Paused> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$StoppedCopyWith<$Res> {
-  factory _$$StoppedCopyWith(_$Stopped value, $Res Function(_$Stopped) then) =
-      __$$StoppedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$StoppedCopyWithImpl<$Res>
-    extends _$MusicPlayerStateCopyWithImpl<$Res, _$Stopped>
-    implements _$$StoppedCopyWith<$Res> {
-  __$$StoppedCopyWithImpl(_$Stopped _value, $Res Function(_$Stopped) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$Stopped with DiagnosticableTreeMixin implements Stopped {
-  const _$Stopped();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.stopped()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'MusicPlayerState.stopped'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Stopped);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return stopped();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return stopped?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (stopped != null) {
-      return stopped();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return stopped(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return stopped?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (stopped != null) {
-      return stopped(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Stopped implements MusicPlayerState {
-  const factory Stopped() = _$Stopped;
-}
-
-/// @nodoc
-abstract class _$$ErrorCopyWith<$Res> {
-  factory _$$ErrorCopyWith(_$Error value, $Res Function(_$Error) then) =
-      __$$ErrorCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ErrorCopyWithImpl<$Res>
-    extends _$MusicPlayerStateCopyWithImpl<$Res, _$Error>
-    implements _$$ErrorCopyWith<$Res> {
-  __$$ErrorCopyWithImpl(_$Error _value, $Res Function(_$Error) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$Error with DiagnosticableTreeMixin implements Error {
-  const _$Error();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MusicPlayerState.error()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'MusicPlayerState.error'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Error);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-            Track track, Duration currentTime, int currentTrackIndex)
-        playing,
-    required TResult Function(
-            Track track, Duration lastTime, int currentTrackIndex)
-        paused,
-    required TResult Function() stopped,
-    required TResult Function() error,
-  }) {
-    return error();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult? Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult? Function()? stopped,
-    TResult? Function()? error,
-  }) {
-    return error?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Track track, Duration currentTime, int currentTrackIndex)?
-        playing,
-    TResult Function(Track track, Duration lastTime, int currentTrackIndex)?
-        paused,
-    TResult Function()? stopped,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Playing value) playing,
-    required TResult Function(Paused value) paused,
-    required TResult Function(Stopped value) stopped,
-    required TResult Function(Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Playing value)? playing,
-    TResult? Function(Paused value)? paused,
-    TResult? Function(Stopped value)? stopped,
-    TResult? Function(Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Playing value)? playing,
-    TResult Function(Paused value)? paused,
-    TResult Function(Stopped value)? stopped,
-    TResult Function(Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Error implements MusicPlayerState {
-  const factory Error() = _$Error;
 }

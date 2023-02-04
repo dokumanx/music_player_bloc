@@ -7,76 +7,77 @@ import 'package:music_player_bloc/features/play_music/models/track.dart';
 import 'package:music_player_bloc/features/play_music/repository/playlist_repository.dart';
 
 part 'music_player_bloc.freezed.dart';
+
 part 'music_player_event.dart';
+
 part 'music_player_state.dart';
 
 class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   final IPlaylistRepository playlistRepository;
   final TrackTimer trackTimer;
 
-  late final Playlist _playlist;
-
   MusicPlayerBloc({
     required this.playlistRepository,
     required this.trackTimer,
-  })  : _playlist = playlistRepository.getPlaylist(),
-        super(const MusicPlayerState.initial()) {
+  }) : super(const MusicPlayerState()) {
     on<MusicPlayerEvent>((events, emit) async {
       await events.map(
-        play: (event) => _play(event, emit),
-        pause: (_) => _pause(emit),
-        resume: (_) => _resume(emit),
+        play: (event) async => await _play(event, emit),
+        pause: (_) async => await _pause(emit),
+        resume: (_) async => await _resume(emit),
         next: (_) async => await _next(emit),
         previous: (_) async => await _previous(emit),
       );
     });
   }
 
-  _play(PlayMusicPlayer event, Emitter<MusicPlayerState> emit) {
-    final track = _playlist.tracks[event.index];
+  _play(PlayMusicPlayer event, Emitter<MusicPlayerState> emit) async {
+    if (state.playlist.tracks.isEmpty) {
+      emit(state.copyWith(status: PlayerStatus.loading));
 
-    trackTimer.setTrackDuration(duration: track.duration);
-    emit(MusicPlayerState.playing(
-      track: track,
-      currentTime: trackTimer.passedTime(trackDuration: track.duration),
+      final playList = await playlistRepository.getPlaylist();
+      emit(state.copyWith(playlist: playList));
+    }
+
+    final currentTrack = state.playlist.tracks[event.index];
+
+    trackTimer.setTrackDuration(duration: currentTrack.duration);
+
+    emit(state.copyWith(
+      status: PlayerStatus.playing,
       currentTrackIndex: event.index,
+      currentTime: Duration.zero,
     ));
   }
 
   _pause(Emitter<MusicPlayerState> emit) {
-    final track = _playlist.tracks[currentTrackIndex];
-
     trackTimer.pause();
 
-    emit(MusicPlayerState.paused(
-      track: track,
-      lastTime: trackTimer.passedTime(trackDuration: track.duration),
-      currentTrackIndex: currentTrackIndex,
+    emit(state.copyWith(
+      status: PlayerStatus.paused,
+      currentTime: trackTimer.passedTime(trackDuration: currentTrack.duration),
     ));
   }
 
   _resume(Emitter<MusicPlayerState> emit) {
-    final track = _playlist.tracks[currentTrackIndex];
-
     trackTimer.resume();
 
-    emit(MusicPlayerState.playing(
-      track: track,
-      currentTime: trackTimer.passedTime(trackDuration: track.duration),
-      currentTrackIndex: currentTrackIndex,
+    emit(state.copyWith(
+      status: PlayerStatus.playing,
+      currentTime: trackTimer.passedTime(trackDuration: currentTrack.duration),
     ));
   }
 
   _stop(Emitter<MusicPlayerState> emit) {
     trackTimer.stop();
-    emit(const MusicPlayerState.stopped());
+    emit(state.copyWith(status: PlayerStatus.stopped));
   }
 
   Future<void> _next(Emitter<MusicPlayerState> emit) async {
-    if (state is! Stopped) {
-      if (currentTrackIndex < _playlist.tracks.length - 1) {
+    if (state.status != PlayerStatus.stopped) {
+      if (currentTrackIndex < state.playlist.tracks.length - 1) {
         var nextIndex = currentTrackIndex + 1;
-        emit(const MusicPlayerState.loading());
+        emit(state.copyWith(status: PlayerStatus.loading));
         // Fake loading to demonstrate the loading state
         await Future.delayed(const Duration(milliseconds: 200))
             .then((_) => add(MusicPlayerEvent.play(index: nextIndex)));
@@ -90,7 +91,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   Future<void> _previous(Emitter<MusicPlayerState> emit) async {
     if (currentTrackIndex > 0) {
       int previousIndex = currentTrackIndex - 1;
-      emit(const MusicPlayerState.loading());
+      emit(state.copyWith(status: PlayerStatus.loading));
       // Fake loading to demonstrate the loading state
       await Future.delayed(const Duration(milliseconds: 200))
           .then((_) => add(MusicPlayerEvent.play(index: previousIndex)));
@@ -100,10 +101,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     }
   }
 
-  int get currentTrackIndex => state.maybeMap(
-        playing: (state) => state.currentTrackIndex,
-        paused: (state) => state.currentTrackIndex,
-        stopped: (state) => _playlist.tracks.length - 1,
-        orElse: () => 0,
-      );
+  int get currentTrackIndex => state.currentTrackIndex;
+
+  Track get currentTrack => state.playlist.tracks[currentTrackIndex];
 }
