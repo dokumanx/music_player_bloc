@@ -133,8 +133,6 @@ void main() {
       seed: () => state.copyWith(
         status: PlayerStatus.playing,
         currentTrackIndex: blues90s.tracks.length - 1,
-        currentTime:
-            trackTimer.passedTime(trackDuration: blues90s.tracks.last.duration),
       ),
       act: (bloc) => bloc.add(const MusicPlayerEvent.next()),
       expect: () => <MusicPlayerState>[
