@@ -4,6 +4,7 @@ This is demo app to demonstrate how to use Bloc pattern in action. To learn how 
 
 
 [[Flutter/Dart] Bloc Pattern with Freezed Part-1](https://bit.ly/3X10ExM)
+
 [[Flutter/Dart] Bloc Pattern with Freezed Part-2 Testing](https://bit.ly/blocTest)
 
 # Demo
