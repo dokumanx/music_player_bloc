@@ -3,7 +3,8 @@
 This is demo app to demonstrate how to use Bloc pattern in action. To learn how it is implemented, you can check out the below article.
 
 
-[[Flutter/Dart] Bloc Pattern with Freezed Part-1](https://medium.com/@fnfidanci/flutter-dart-bloc-pattern-with-freezed-part-1-83b9bc6f9333)
+[[Flutter/Dart] Bloc Pattern with Freezed Part-1](https://bit.ly/3X10ExM)
+[[Flutter/Dart] Bloc Pattern with Freezed Part-2 Testing](https://bit.ly/blocTest)
 
 # Demo
 
